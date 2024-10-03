@@ -28,7 +28,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       ],
       color: Color.fromARGB(128, 112, 121, 241),
       buttonBackgroundColor: Color.fromARGB(128, 112, 121, 241),
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: Color.fromARGB(255, 251, 248, 251),
       animationCurve: Curves.easeInOut,
       animationDuration: const Duration(milliseconds: 400),
       onTap: (index) {

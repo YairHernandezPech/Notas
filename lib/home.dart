@@ -8,10 +8,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Notes App', // Puedes cambiar el título de la app aquí
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      title: 'Notes App',
       home: Home(),
     );
   }

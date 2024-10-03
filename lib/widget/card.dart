@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes/Database/modelNote.dart';
 
 class CardScrollView extends StatefulWidget {
   @override
@@ -6,6 +7,23 @@ class CardScrollView extends StatefulWidget {
 }
 
 class _CardScrollViewState extends State<CardScrollView> {
+  List<Map<String, dynamic>> _notes = [];
+  final ModelNote _modelNote = ModelNote();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadNotes();
+  }
+
+  // Cargar las notas usando SeatService
+  Future<void> _loadNotes() async {
+    final notes = await _modelNote.findAll(); // Obtén las notas desde SeatService
+    setState(() {
+      _notes = notes;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -43,18 +61,24 @@ class _CardScrollViewState extends State<CardScrollView> {
           ),
         ),
         Expanded(
-          child: ListWheelScrollView(
-            itemExtent: 120,
-            diameterRatio: 2.5,
-            physics: FixedExtentScrollPhysics(),
-            children: List.generate(10, (index) => _buildCard(index)),
-          ),
+          child: _notes.isEmpty
+              ? Center(child: Text('CREA UNA NUEVA NOTA')) // Muestra un mensaje si no hay notas
+              : ListWheelScrollView(
+                  itemExtent: 100,
+                  diameterRatio: 2.5,
+                  physics: FixedExtentScrollPhysics(),
+                  children: List.generate(
+                    _notes.length,
+                    (index) => _buildCard(_notes[index]),
+                  ),
+                ),
         ),
       ],
     );
   }
 
-  Widget _buildCard(int index) {
+  // Construir la tarjeta con los datos de la nota
+  Widget _buildCard(Map<String, dynamic> note) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Card(
@@ -72,9 +96,9 @@ class _CardScrollViewState extends State<CardScrollView> {
               Row(
                 children: [
                   Text(
-                    'History Test',
+                    note['title'] ?? 'Sin título',
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -88,9 +112,9 @@ class _CardScrollViewState extends State<CardScrollView> {
               ),
               SizedBox(height: 16),
               Text(
-                '10:30 hrs, to 11:30 hrs.',
+                note['created_at'] ?? 'Sin fecha',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 15,
                   color: Colors.white70,
                 ),
               ),
