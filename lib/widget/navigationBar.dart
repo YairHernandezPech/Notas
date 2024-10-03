@@ -14,7 +14,7 @@ class BottomNavigation extends StatefulWidget {
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
-  int _pageIndex = 1; // Cambiado de 0 a 1 para que el botón del medio esté seleccionado
+  int _pageIndex = 0; // Cambiado de 0 a 1 para que el botón del medio esté seleccionado
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +38,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
         widget.onPageChange(index); // Llama a la función callback cuando cambie de página
 
-        if (index == 1) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Createnote()),
-          );
-        }
+        // if (index == 1) {
+        //   Navigator.push(
+        //     context,
+        //     MaterialPageRoute(builder: (context) => Createnote()),
+        //   );
+        // }
       },
       letIndexChange: (index) => true,
     );
