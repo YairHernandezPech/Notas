@@ -2,6 +2,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/widget/card.dart';
+import 'package:notes/widget/createNote.dart';
 import 'package:notes/widget/navigationBar.dart';
 
 class MyApp extends StatelessWidget {
@@ -21,7 +22,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _pageIndex =
-      1; // Cambiado de 0 a 1 para seleccionar el botón del medio al inicio
+      0; // Cambiado de 0 a 1 para seleccionar el botón del medio al inicio
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   void _onPageChange(int index) {
@@ -29,6 +30,12 @@ class _HomeState extends State<Home> {
       _pageIndex = index;
     });
   }
+
+  List<Widget> _listBodies = [
+    CardScrollView(),
+    Createnote(),
+    Text("GAY EL QUE LO LEA")
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +47,7 @@ class _HomeState extends State<Home> {
       ),
       title: Text("Notas"),),
 
-      body: CardScrollView(),
+      body: _listBodies[_pageIndex],
       
       bottomNavigationBar: BottomNavigation(
         onPageChange: _onPageChange,
