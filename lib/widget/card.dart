@@ -10,13 +10,15 @@ class CardScrollView extends StatefulWidget {
 class _CardScrollViewState extends State<CardScrollView> {
   List<Map<String, dynamic>> _notes = [];
   final ModelNote _modelNote = ModelNote();
-  TextEditingController _searchController = TextEditingController(); // Controlador del TextField
+  TextEditingController _searchController =
+      TextEditingController(); // Controlador del TextField
 
   @override
   void initState() {
     super.initState();
     _loadNotes();
-    _searchController.addListener(_onSearchChanged); // Escuchar cambios en el campo de búsqueda
+    _searchController.addListener(
+        _onSearchChanged); // Escuchar cambios en el campo de búsqueda
   }
 
   @override
@@ -64,7 +66,8 @@ class _CardScrollViewState extends State<CardScrollView> {
               borderRadius: BorderRadius.circular(30),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
+                  color:
+                      const Color.fromARGB(255, 255, 255, 255).withOpacity(0.5),
                   spreadRadius: 2,
                   blurRadius: 5,
                   offset: Offset(0, 3),
@@ -72,7 +75,8 @@ class _CardScrollViewState extends State<CardScrollView> {
               ],
             ),
             child: TextField(
-              controller: _searchController, // Asignar el controlador al TextField
+              controller:
+                  _searchController, // Asignar el controlador al TextField
               decoration: InputDecoration(
                 hintText: 'Buscar notas...',
                 border: InputBorder.none,
@@ -85,7 +89,21 @@ class _CardScrollViewState extends State<CardScrollView> {
         ),
         Expanded(
           child: _notes.isEmpty
-              ? Center(child: Text('CREA UNA NUEVA NOTA'))
+              ? Center(
+                  child: ColorFiltered(
+                    colorFilter: ColorFilter.mode(
+                      const Color.fromARGB(255, 253, 212, 226)
+                          .withOpacity(0.2), // Color rosado con opacidad baja
+                      BlendMode.srcATop, // Modo de mezcla
+                    ),
+                    child: Image.asset(
+                      'assets/note.gif', // Ruta de tu imagen
+                      width: 200, // Tamaño de la imagen
+                      height: 200,
+                      fit: BoxFit.contain, // Ajuste de la imagen
+                    ),
+                  ),
+                )
               : ListWheelScrollView(
                   itemExtent: 100,
                   diameterRatio: 2.5,
@@ -99,13 +117,82 @@ class _CardScrollViewState extends State<CardScrollView> {
       ],
     );
   }
-  
+
   Widget _buildDismissibleCard(Map<String, dynamic> note) {
     return Dismissible(
       key: UniqueKey(),
       direction: DismissDirection.endToStart,
+      confirmDismiss: (direction) async {
+        // Mostrar un diálogo de confirmación
+        return await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(0), // Bordes redondeados
+              ),
+              title: Row(
+                children: [
+                  Icon(Icons.warning_rounded,
+                      color: Colors.redAccent), // Ícono de advertencia
+                  SizedBox(width: 10),
+                  Text(
+                    'Confirmar eliminación',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.redAccent, // Color de texto
+                    ),
+                  ),
+                ],
+              ),
+              content: Text(
+                '¿Estás seguro de que deseas eliminar esta nota?',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false); // No elimina la nota
+                  },
+                  child: Text(
+                    'Cancelar',
+                    style: TextStyle(
+                      color: Colors.grey, // Botón con color gris para cancelar
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true); // Elimina la nota
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        Colors.redAccent, // Color de fondo rojo para eliminar
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(0), // Bordes redondeados
+                    ),
+                  ),
+                  child: Text(
+                    'Eliminar',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white, // Texto blanco
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
       onDismissed: (direction) {
-        _deleteNote(note['note_id']);
+        _deleteNote(note['note_id']); // Eliminar la nota si se confirma
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             duration: const Duration(seconds: 2),
@@ -132,7 +219,7 @@ class _CardScrollViewState extends State<CardScrollView> {
         );
       },
       background: Container(
-        color: Colors.red,
+        color: const Color.fromARGB(255, 255, 255, 255),
         alignment: Alignment.centerRight,
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Icon(Icons.delete, color: Colors.white),
@@ -174,25 +261,45 @@ class _CardScrollViewState extends State<CardScrollView> {
                   Text(
                     note['title'] ?? 'Sin título',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 15,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
                   Spacer(),
                   Icon(
-                    Icons.attachment,
+                    Icons.push_pin,
                     color: Colors.white,
                   ),
                 ],
               ),
-              SizedBox(height: 16),
-              Text(
-                note['created_at'] ?? 'Sin fecha',
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.white70,
-                ),
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  // El texto de la nota a la izquierda con ajuste
+                  Expanded(
+                    child: Text(
+                      note['note'] ?? 'Sin título',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                      maxLines: 1, // Limita a una línea
+                      overflow:
+                          TextOverflow.ellipsis, // Corta el texto con "..."
+                    ),
+                  ),
+                  SizedBox(width: 10), // Espacio entre el texto y la fecha
+                  // El texto de la fecha a la derecha
+                  Text(
+                    note['created_at'] ?? 'Sin fecha',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.white70,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

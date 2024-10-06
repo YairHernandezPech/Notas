@@ -18,7 +18,9 @@ class Createnote extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
           child: ListView(
             children: [
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               CustomTextField(
                 labelText: 'Titulo',
                 obscureText: false,
@@ -80,7 +82,8 @@ class Createnote extends StatelessWidget {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           duration: const Duration(seconds: 2),
-                          backgroundColor:const Color.fromARGB(128, 238, 127, 127),
+                          backgroundColor:
+                              const Color.fromARGB(128, 238, 127, 127),
                           behavior: SnackBarBehavior.floating,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(24),
@@ -106,7 +109,8 @@ class Createnote extends StatelessWidget {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.infinity, 60), // Ancho completo
+                    minimumSize:
+                        const Size(double.infinity, 60), // Ancho completo
                     backgroundColor: const Color.fromARGB(128, 127, 134, 238),
                     shape: RoundedRectangleBorder(
                       borderRadius:

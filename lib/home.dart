@@ -1,6 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notes/widget/calendarCard.dart';
 import 'package:notes/widget/card.dart';
 import 'package:notes/widget/createNote.dart';
 import 'package:notes/widget/navigationBar.dart';
@@ -31,24 +32,19 @@ class _HomeState extends State<Home> {
     });
   }
 
-  List<Widget> _listBodies = [
-    CardScrollView(),
-    Createnote(),
-    Text("GAY EL QUE LO LEA")
-  ];
+  List<Widget> _listBodies = [CardScrollView(), Createnote(), CalendarCard()];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(
-        onPressed: () {},
-        icon: Icon(Icons.menu),
+        leading: IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.menu),
+        ),
+        title: Text("Notas"),
       ),
-      title: Text("Notas"),),
-
       body: _listBodies[_pageIndex],
-      
       bottomNavigationBar: BottomNavigation(
         onPageChange: _onPageChange,
         bottomNavigationKey: _bottomNavigationKey,
