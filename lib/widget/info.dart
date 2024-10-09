@@ -46,13 +46,16 @@ class _InfonoteState extends State<Infonote> {
         backgroundColor: Color.fromARGB(128, 127, 134, 238),
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.push(
+              onPressed: () async {
+                var result = await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => Editnote(noteId: widget.noteId),
                   ),
                 );
+                if (result == true) {
+                  _loadNoteData();
+                }
               },
               icon: Icon(Icons.edit))
         ],
@@ -65,48 +68,66 @@ class _InfonoteState extends State<Infonote> {
             child: ListView(
               children: [
                 const SizedBox(height: 10),
-                TextField(
-                  obscureText: false,
-                  enabled: false,
-                  maxLines: 1,
-                  controller: titleController,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide.none,
+                Container(
+                  decoration: BoxDecoration(boxShadow: [
+                    BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 1,
+                        blurRadius: 15,
+                        offset: Offset(0, 5))
+                  ]),
+                  child: TextField(
+                    obscureText: false,
+                    enabled: false,
+                    maxLines: 1,
+                    controller: titleController,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
                     ),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
-                TextField(
-                  obscureText: false,
-                  enabled: false,
-                  maxLines: null,
-                  minLines: 20,
-                  controller: noteController,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black87,
-                    height: 1.5,
-                  ),
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide.none,
+                Container(
+                  decoration: BoxDecoration(boxShadow: [
+                    BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 1,
+                        blurRadius: 15,
+                        offset: Offset(0, 5))
+                  ]),
+                  child: TextField(
+                    obscureText: false,
+                    enabled: false,
+                    maxLines: null,
+                    minLines: 20,
+                    controller: noteController,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black87,
+                      height: 1.5,
                     ),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: const Color.fromARGB(199, 255, 255, 255),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
