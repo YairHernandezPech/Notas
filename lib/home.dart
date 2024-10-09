@@ -31,24 +31,21 @@ class _HomeState extends State<Home> {
     });
   }
 
-  List<Widget> _listBodies = [
-    CardScrollView(),
-    Createnote(),
-    Text("GAY EL QUE LO LEA")
-  ];
+  List<Widget> _listBodies = [CardScrollView(), Createnote(), Text("xd")];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(
-        onPressed: () {},
-        icon: Icon(Icons.menu),
+        backgroundColor: Colors.transparent,
+        scrolledUnderElevation: 0,
+        leading: IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.menu),
+        ),
+        title: Text("Notas"),
       ),
-      title: Text("Notas"),),
-
       body: _listBodies[_pageIndex],
-      
       bottomNavigationBar: BottomNavigation(
         onPageChange: _onPageChange,
         bottomNavigationKey: _bottomNavigationKey,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notes/Database/modelNote.dart';
 import 'package:notes/widget/editNote.dart';
+import 'package:notes/widget/info.dart';
 
 class CardScrollView extends StatefulWidget {
   @override
@@ -10,13 +11,15 @@ class CardScrollView extends StatefulWidget {
 class _CardScrollViewState extends State<CardScrollView> {
   List<Map<String, dynamic>> _notes = [];
   final ModelNote _modelNote = ModelNote();
-  TextEditingController _searchController = TextEditingController(); // Controlador del TextField
+  TextEditingController _searchController =
+      TextEditingController(); // Controlador del TextField
 
   @override
   void initState() {
     super.initState();
     _loadNotes();
-    _searchController.addListener(_onSearchChanged); // Escuchar cambios en el campo de búsqueda
+    _searchController.addListener(
+        _onSearchChanged); // Escuchar cambios en el campo de búsqueda
   }
 
   @override
@@ -72,7 +75,8 @@ class _CardScrollViewState extends State<CardScrollView> {
               ],
             ),
             child: TextField(
-              controller: _searchController, // Asignar el controlador al TextField
+              controller:
+                  _searchController, // Asignar el controlador al TextField
               decoration: InputDecoration(
                 hintText: 'Buscar notas...',
                 border: InputBorder.none,
@@ -99,7 +103,7 @@ class _CardScrollViewState extends State<CardScrollView> {
       ],
     );
   }
-  
+
   Widget _buildDismissibleCard(Map<String, dynamic> note) {
     return Dismissible(
       key: UniqueKey(),
@@ -142,7 +146,7 @@ class _CardScrollViewState extends State<CardScrollView> {
           final result = await Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => Editnote(noteId: note['note_id']),
+              builder: (context) => Infonote(noteId: note['note_id']),
             ),
           );
           if (result == true) {
@@ -156,7 +160,7 @@ class _CardScrollViewState extends State<CardScrollView> {
 
   Widget _buildCard(Map<String, dynamic> note) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Card(
         color: Color.fromARGB(128, 127, 134, 238),
         elevation: 6,
@@ -186,7 +190,7 @@ class _CardScrollViewState extends State<CardScrollView> {
                   ),
                 ],
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 5),
               Text(
                 note['created_at'] ?? 'Sin fecha',
                 style: TextStyle(
